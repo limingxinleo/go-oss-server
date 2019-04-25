@@ -1,10 +1,10 @@
 package oss
 
 import (
-	"mime/multipart"
+	"fmt"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/google/uuid"
-	"fmt"
+	"mime/multipart"
 )
 
 func SimpleUpload(config *Config, bucketName string, fileHeader *multipart.FileHeader) (string, error) {
