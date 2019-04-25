@@ -19,9 +19,17 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/ping", func(c *gin.Context) {
+	r.POST("/", func(c *gin.Context) {
+		bucket := c.DefaultQuery("bucket", "public")
+		object := c.Query("object")
+		file, _ := c.FormFile("file")
+
 		c.JSON(200, gin.H{
-			"message": config.EndPoint,
+			"message": gin.H{
+				"bucket":   bucket,
+				"object":   object,
+				"fileName": file.Filename,
+			},
 		})
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080
