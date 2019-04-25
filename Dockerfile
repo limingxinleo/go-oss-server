@@ -17,7 +17,7 @@ ADD . .
 
 RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix cgo -o app main.go
 
-FROM scratch as prod
+FROM scratch
 
 ENV GIN_MODE=release
 
