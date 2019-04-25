@@ -9,13 +9,7 @@ import "github.com/limingxinleo/go-oss-server/oss"
 import "log"
 
 func main() {
-	env := os.Getenv("GIN_MODE")
-	if env != "release" {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
-	}
+	godotenv.Load()
 
 	config := new(oss.Config)
 	config.EndPoint = os.Getenv("END_POINT")
