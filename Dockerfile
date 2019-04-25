@@ -2,20 +2,27 @@ FROM golang:1.12-alpine as builder
 
 LABEL maintainer="limx <715557344@qq.com>"
 ENV GO111MODULE=on
-ENV GIN_MODE=release
 
 RUN apk add git
 
-# Set the Current Working Directory inside the container
-WORKDIR $GOPATH/src/github.com/limingxinleo/go-oss-server
+WORKDIR /go/cache
 
-# Copy everything from the current directory to the PWD(Present Working Directory) inside the container
-COPY . .
+ADD go.mod .
+ADD go.sum .
+RUN go mod download
 
-RUN go build
+WORKDIR /go/src/github.com/limingxinleo/go-oss-server
 
-# This container exposes port 8080 to the outside world
+ADD . .
+
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix cgo -o app main.go
+
+FROM scratch as prod
+
+ENV GIN_MODE=release
+
+COPY --from=builder /go/src/github.com/limingxinleo/go-oss-server /
+
 EXPOSE 8080
 
-# Run the executable
-ENTRYPOINT ["./go-oss-server"]
+ENTRYPOINT ["/app"]
