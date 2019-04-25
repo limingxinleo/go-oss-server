@@ -21,16 +21,22 @@ func main() {
 
 	r.POST("/", func(c *gin.Context) {
 		bucket := c.DefaultQuery("bucket", "public")
-		object := c.Query("object")
 		file, _ := c.FormFile("file")
 
-		c.JSON(200, gin.H{
-			"message": gin.H{
-				"bucket":   bucket,
-				"object":   object,
-				"fileName": file.Filename,
-			},
-		})
+		result, err := oss.SimpleUpload(config, bucket, file)
+		if err != nil {
+			log.Println("Error:", err)
+			c.JSON(200, gin.H{
+				"code":    500,
+				"message": "文件上传失败",
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"code": 0,
+				"data": result,
+			})
+		}
 	})
+
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
