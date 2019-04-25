@@ -1,7 +1,8 @@
-FROM golang:1.12-alpine
+FROM golang:1.12-alpine as builder
 
 LABEL maintainer="limx <715557344@qq.com>"
 ENV GO111MODULE=on
+ENV GIN_MODE=release
 
 RUN apk add git
 

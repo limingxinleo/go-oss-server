@@ -1,15 +1,20 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+)
 import "os"
 import "github.com/limingxinleo/go-oss-server/oss"
-import "github.com/joho/godotenv"
 import "log"
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	env := os.Getenv("GIN_MODE")
+	if env != "release" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 
 	config := new(oss.Config)
