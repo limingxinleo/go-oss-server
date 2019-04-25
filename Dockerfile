@@ -21,7 +21,7 @@ FROM scratch
 
 ENV GIN_MODE=release
 
-COPY --from=builder /go/src/github.com/limingxinleo/go-oss-server /
+COPY --from=builder /go/src/github.com/limingxinleo/go-oss-server/app /
 
 EXPOSE 8080
 
