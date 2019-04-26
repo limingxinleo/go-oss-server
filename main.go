@@ -18,11 +18,13 @@ func main() {
 
 	r := gin.Default()
 
-	r.POST("/", func(c *gin.Context) {
-		bucket := c.DefaultQuery("bucket", "public")
+	r.POST("/:bucket", func(c *gin.Context) {
+		bucket := c.Param("bucket")
+		object := c.Query("object")
+
 		file, _ := c.FormFile("file")
 
-		result, err := oss.SimpleUpload(config, bucket, file)
+		result, err := oss.SimpleUpload(config, bucket, file, object)
 		if err != nil {
 			log.Println("Error:", err)
 			c.JSON(200, gin.H{

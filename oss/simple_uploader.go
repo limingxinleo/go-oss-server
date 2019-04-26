@@ -8,7 +8,7 @@ import (
 	"path"
 )
 
-func SimpleUpload(config *Config, bucketName string, fileHeader *multipart.FileHeader) (string, error) {
+func SimpleUpload(config *Config, bucketName string, fileHeader *multipart.FileHeader, object string) (string, error) {
 	file, _ := fileHeader.Open()
 	defer file.Close()
 
@@ -29,7 +29,11 @@ func SimpleUpload(config *Config, bucketName string, fileHeader *multipart.FileH
 	}
 
 	uuid := uuid.New()
-	object := uuid.String() + ext
+	if object == "" {
+		object = uuid.String() + ext
+	} else {
+		object += ext
+	}
 
 	// 上传Byte数组。
 	err = bucket.PutObject(object, file)
