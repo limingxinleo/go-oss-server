@@ -12,8 +12,6 @@ func SimpleUpload(config *Config, bucketName string, fileHeader *multipart.FileH
 	file, _ := fileHeader.Open()
 	defer file.Close()
 
-	ext := path.Ext(fileHeader.Filename)
-
 	// 创建OSSClient实例。
 	client, err := oss.New(config.EndPoint, config.AccessKeyId, config.AccessKeySecret)
 	if err != nil {
@@ -28,11 +26,10 @@ func SimpleUpload(config *Config, bucketName string, fileHeader *multipart.FileH
 		return "", err
 	}
 
-	uuid := uuid.New()
 	if object == "" {
+		uuid := uuid.New()
+		ext := path.Ext(fileHeader.Filename)
 		object = uuid.String() + ext
-	} else {
-		object += ext
 	}
 
 	// 上传Byte数组。
