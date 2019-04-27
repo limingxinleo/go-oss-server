@@ -20,3 +20,37 @@ curl -X POST http://localhost:8080/simple_handler/your_bucket \
   -F "file=@/Users/xxx/Downloads/picture/test.jpeg" \
   -H "Content-Type: multipart/form-data"
 ```
+
+## stack 样例
+```yaml
+version: '3.7'
+services:
+  go_app:
+    image: $REGISTRY_URL/$PROJECT_NAME:test
+    environment:
+      - "APP_PROJECT=go_app"
+      - "APP_ENV=test"
+    ports:
+      - 8080:8080
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+      update_config:
+        parallelism: 2
+        delay: 5s
+        order: start-first
+    networks:
+      - go_app_net
+    configs:
+      - source: go_app_v1.0
+        target: /.env
+configs:
+  go_app_v1.0:
+    external: true
+networks:
+  go_app_net:
+    external: true
+```
