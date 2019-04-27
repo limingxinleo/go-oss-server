@@ -12,11 +12,11 @@ limingxinleo/go-oss-server:latest
 
 测试
 ```
-curl -X POST http://localhost:8080/your_bucket\?object\=your_object\
+curl -X POST http://localhost:8080/simple_handler/your_bucket\?object\=your_object\
   -F "file=@/Users/xxx/Downloads/picture/test.jpeg" \
   -H "Content-Type: multipart/form-data"
   
-curl -X POST http://localhost:8080/your_bucket \
+curl -X POST http://localhost:8080/simple_handler/your_bucket \
   -F "file=@/Users/xxx/Downloads/picture/test.jpeg" \
   -H "Content-Type: multipart/form-data"
 ```
