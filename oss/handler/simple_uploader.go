@@ -2,12 +2,12 @@ package handler
 
 import (
 	"fmt"
+	aoss "github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/limingxinleo/go-oss-server/oss"
 	"mime/multipart"
 	"path"
-	aoss "github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
 
 type SimpleUploader struct {
@@ -20,7 +20,7 @@ func (s SimpleUploader) Handle(ctx *gin.Context, config *oss.Config) (string, er
 
 	result, err := s.SimpleUpload(config, bucket, file, object)
 
-	return result,err
+	return result, err
 }
 
 func (s SimpleUploader) SimpleUpload(config *oss.Config, bucketName string, fileHeader *multipart.FileHeader, object string) (string, error) {
