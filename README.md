@@ -19,6 +19,8 @@ curl -X POST http://localhost:8080/simple_handler/your_bucket\?object\=your_obje
 curl -X POST http://localhost:8080/simple_handler/your_bucket \
   -F "file=@/Users/xxx/Downloads/picture/test.jpeg" \
   -H "Content-Type: multipart/form-data"
+
+curl http://127.0.0.1:8080/str/your_bucket\?object\=put-str-test.json -X POST -d '{"content":"{\"a\":1}","header":{"Content-Type":"application/json"' -H "Content-Type:application/json"
 ```
 
 ## stack 样例
