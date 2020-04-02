@@ -11,9 +11,16 @@ import (
 type Deleter struct {
 }
 
+type ObjectArray struct {
+	Objects []string        `form:"objects" json:"objects" xml:"objects"  binding:"required"`
+}
+
 func (s Deleter) Handle(ctx *gin.Context, config *oss.Config) (string, error) {
+	var body ObjectArray
 	bucketName := ctx.Param("bucket")
-	objects := ctx.Query("objects")
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		return "", err
+	}
 
 	client, err := aoss.New(config.EndPoint, config.AccessKeyId, config.AccessKeySecret)
 	if err != nil {
@@ -28,8 +35,7 @@ func (s Deleter) Handle(ctx *gin.Context, config *oss.Config) (string, error) {
 		return "", err
 	}
 
-	log.Println(bucket)
-	//res,_ = bucket.DeleteObjects(objects)
+	bucket.DeleteObjects(body.Objects)
 
-	return objects, err
+	return "", err
 }
