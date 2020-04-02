@@ -1,4 +1,4 @@
-FROM golang:1.12 as builder
+FROM golang:1.14 as builder
 
 LABEL maintainer="limx <715557344@qq.com>"
 ENV GOPROXY https://go.likeli.top

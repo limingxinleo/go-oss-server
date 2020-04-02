@@ -24,6 +24,7 @@ func init() {
 	handlers = make(map[string]interface{})
 	handlers["simple_uploader"] = handler.SimpleUploader{}
 	handlers["str"] = handler.Str{}
+	handlers["deleter"] = handler.Deleter{}
 
 	log.Println(handlers)
 }
